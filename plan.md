@@ -27,13 +27,15 @@ The `ac97` branch adds an Intel 82801AA (8086:2415) PCI AC'97 controller. ReactO
 
 1. Build v86: `make` (debug) or `make all` (release).
 2. Serve locally: `make run` → open `http://localhost:8000/debug.html`.
-3. Start **ReactOS (boot)** with **Use AC'97 instead of SB16** checked, or use:
+3. Start the **ReactOS + ReBirth** profile (or use the URL below).
    ```
-   debug.html?profile=reactos-boot&ac97=1&acpi=1
+   debug.html?profile=reactos-rebirth
    ```
-4. In ReactOS: Device Manager should show **Intel 82801AA AC'97 Audio Controller**. If not, use the in-tree AC97 driver from RAPPS or add hardware manually.
-5. Verify audio: Control Panel → Sounds → play a system sound.
-6. If sound works in the browser, v86 #1007 is addressed on the emulator side. Any remaining glitches are likely ReactOS audio stack issues (DirectSound/WaveOut), not missing hardware.
+   This boots ReactOS from disk with AC'97 enabled and `images/rb338.iso` mounted as the CD-ROM.
+4. Place `rb338.iso` in `images/` before starting (download from [archive.org/details/rebirthrb338](https://archive.org/details/rebirthrb338); the archive file is named `rebirth_iso_installation.iso` — rename or symlink to `rb338.iso`).
+5. In ReactOS: Device Manager should show **Intel 82801AA AC'97 Audio Controller**. If not, use the in-tree AC97 driver from RAPPS or add hardware manually.
+6. Verify audio: Control Panel → Sounds → play a system sound.
+7. If sound works in the browser, v86 #1007 is addressed on the emulator side. Any remaining glitches are likely ReactOS audio stack issues (DirectSound/WaveOut), not missing hardware.
 
 ### ford442/reactos fork
 
@@ -41,12 +43,12 @@ Your [ford442/reactos](https://github.com/ford442/reactos) fork is not required 
 
 ## Phase 2: Mount ReBirth ISO
 
-In `debug.html`:
+The `reactos-rebirth` profile mounts the ISO automatically. For manual setup in `debug.html`:
 
-1. Choose **ReactOS (boot)** (or `reactos` after audio works).
-2. Enable AC'97.
+1. Choose **ReactOS (boot)** or **ReactOS + ReBirth**.
+2. Enable AC'97 (automatic on `reactos-rebirth`).
 3. Under **CD-ROM**, select `images/rb338.iso` (or your local copy).
-4. Boot order: CD first if you need to run setup from disc.
+4. Boot order: CD first only if you need to run setup from disc at boot time.
 
 Or embed in code / URL once the ISO is hosted alongside the emulator.
 

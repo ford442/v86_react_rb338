@@ -1041,6 +1041,29 @@ function onload()
             homepage: "https://reactos.org/",
         },
         {
+            id: "reactos-rebirth",
+            memory_size: 512 * 1024 * 1024,
+            hda: {
+                url: host + "reactos-v2/.img",
+                size: 681574400,
+                async: true,
+                fixed_chunk_size: 1024 * 1024,
+                use_parts: true,
+            },
+            cdrom: {
+                // Place rb338.iso in images/ (see plan.md). Archive.org name:
+                // rebirth_iso_installation.iso (~220 MB).
+                url: host + "rb338.iso",
+                size: 231211417,
+                async: true,
+                fixed_chunk_size: 1024 * 1024,
+            },
+            name: "ReactOS + ReBirth RB-338",
+            acpi: true,
+            enable_ac97: true,
+            homepage: "https://peff.com/rebirth/",
+        },
+        {
             id: "skift",
             cdrom: {
                 url: host + "skift-20200910.iso",
@@ -1991,6 +2014,7 @@ function start_emulation(profile, query_args)
         settings.mac_address_translation = profile.mac_address_translation;
         settings.cpuid_level = profile.cpuid_level;
         settings.acpi = profile.acpi;
+        settings.enable_ac97 = profile.enable_ac97;
         settings.memory_size = profile.memory_size;
         settings.vga_memory_size = profile.vga_memory_size;
         settings.boot_order = profile.boot_order;
