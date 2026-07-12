@@ -218,6 +218,7 @@ V86.prototype.continue_init = async function(emulator, options)
         options.hda ? BOOT_ORDER_HD_FIRST : BOOT_ORDER_CD_FIRST;
 
     settings.acpi = options.acpi;
+    settings.enable_ac97 = options.enable_ac97;
     settings.disable_jit = options.disable_jit;
     settings.load_devices = true;
     settings.memory_size = options.memory_size || 64 * 1024 * 1024;

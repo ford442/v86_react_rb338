@@ -1670,6 +1670,7 @@ function onload()
                     memory_size: p["memory_size"],
                     vga_memory_size: p["vga_memory_size"],
                     acpi: p["acpi"],
+                    enable_ac97: p["enable_ac97"],
                     boot_order: p["boot_order"],
                     hda: handle_image(p["hda"]),
                     cdrom: handle_image(p["cdrom"]),
@@ -2089,6 +2090,7 @@ function start_emulation(profile, query_args)
             }
 
             settings.acpi = query_args.has("acpi") ? bool_arg(query_args.get("acpi")) : settings.acpi;
+            settings.enable_ac97 = query_args.has("ac97") ? bool_arg(query_args.get("ac97")) : settings.enable_ac97;
             settings.use_bochs_bios = query_args.get("bios") === "bochs";
             settings.net_device_type = query_args.get("net_device_type") || settings.net_device_type;
         }
@@ -2277,6 +2279,7 @@ function start_emulation(profile, query_args)
         cmdline: settings.cmdline,
         bzimage_initrd_from_filesystem: settings.bzimage_initrd_from_filesystem,
         acpi: settings.acpi,
+        enable_ac97: settings.enable_ac97,
         disable_jit: settings.disable_jit,
         initial_state: settings.initial_state,
         filesystem: settings.filesystem || {},
