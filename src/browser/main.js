@@ -1021,6 +1021,7 @@ function onload()
             mac_address_translation: true,
             name: "ReactOS",
             acpi: true,
+            enable_ac97: true,
             net_device_type: "virtio",
             homepage: "https://reactos.org/",
         },
@@ -1036,6 +1037,7 @@ function onload()
             },
             name: "ReactOS",
             acpi: true,
+            enable_ac97: true,
             homepage: "https://reactos.org/",
         },
         {
@@ -1689,6 +1691,7 @@ function onload()
     if(query_args.has("relay_url")) $("relay_url").value = query_args.get("relay_url");
     if(query_args.has("mute")) $("disable_audio").checked = bool_arg(query_args.get("mute"));
     if(query_args.has("acpi")) $("acpi").checked = bool_arg(query_args.get("acpi"));
+    if(query_args.has("ac97")) $("enable_ac97").checked = bool_arg(query_args.get("ac97"));
     if(query_args.has("boot_order")) $("boot_order").value = query_args.get("boot_order");
 
     for(const dev of ["fda", "fdb"])
@@ -2224,6 +2227,12 @@ function start_emulation(profile, query_args)
         {
             settings.acpi = $("acpi").checked;
             if(settings.acpi) new_query_args.set("acpi", "1");
+        }
+
+        if(settings.enable_ac97 === undefined)
+        {
+            settings.enable_ac97 = $("enable_ac97").checked;
+            if(settings.enable_ac97) new_query_args.set("ac97", "1");
         }
 
         const BIOSPATH = "bios/";

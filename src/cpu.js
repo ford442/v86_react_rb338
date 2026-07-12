@@ -568,12 +568,12 @@ CPU.prototype.get_state = function()
     state[78] = new Uint8Array(bitmap.get_buffer());
 
     state[79] = this.devices.uart1;
-    state[80] = this.devices.ac97;
     state[80] = this.devices.uart2;
     state[81] = this.devices.uart3;
     state[82] = this.devices.virtio_console;
     state[83] = this.devices.virtio_net;
     state[84] = this.devices.virtio_balloon;
+    state[86] = this.devices.ac97;
 
     return state;
 };
@@ -737,8 +737,8 @@ CPU.prototype.set_state = function(state)
     this.devices.sb16 && this.devices.sb16.set_state(state[61]);
 
     this.devices.uart1 && this.devices.uart1.set_state(state[79]);
-    this.devices.ac97 && state[80] && this.devices.ac97.set_state(state[80]);
     this.devices.uart2 && this.devices.uart2.set_state(state[80]);
+    this.devices.ac97 && state[86] && this.devices.ac97.set_state(state[86]);
     this.devices.uart3 && this.devices.uart3.set_state(state[81]);
     this.devices.virtio_console && this.devices.virtio_console.set_state(state[82]);
     this.devices.virtio_net && this.devices.virtio_net.set_state(state[83]);
