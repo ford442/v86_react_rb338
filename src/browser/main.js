@@ -1021,6 +1021,7 @@ function onload()
             mac_address_translation: true,
             name: "ReactOS",
             acpi: true,
+            enable_ac97: true,
             net_device_type: "virtio",
             homepage: "https://reactos.org/",
         },
@@ -1036,6 +1037,7 @@ function onload()
             },
             name: "ReactOS",
             acpi: true,
+            enable_ac97: true,
             homepage: "https://reactos.org/",
         },
         {
@@ -1670,6 +1672,7 @@ function onload()
                     memory_size: p["memory_size"],
                     vga_memory_size: p["vga_memory_size"],
                     acpi: p["acpi"],
+                    enable_ac97: p["enable_ac97"],
                     boot_order: p["boot_order"],
                     hda: handle_image(p["hda"]),
                     cdrom: handle_image(p["cdrom"]),
@@ -1688,6 +1691,7 @@ function onload()
     if(query_args.has("relay_url")) $("relay_url").value = query_args.get("relay_url");
     if(query_args.has("mute")) $("disable_audio").checked = bool_arg(query_args.get("mute"));
     if(query_args.has("acpi")) $("acpi").checked = bool_arg(query_args.get("acpi"));
+    if(query_args.has("ac97")) $("enable_ac97").checked = bool_arg(query_args.get("ac97"));
     if(query_args.has("boot_order")) $("boot_order").value = query_args.get("boot_order");
 
     for(const dev of ["fda", "fdb"])
@@ -2089,6 +2093,7 @@ function start_emulation(profile, query_args)
             }
 
             settings.acpi = query_args.has("acpi") ? bool_arg(query_args.get("acpi")) : settings.acpi;
+            settings.enable_ac97 = query_args.has("ac97") ? bool_arg(query_args.get("ac97")) : settings.enable_ac97;
             settings.use_bochs_bios = query_args.get("bios") === "bochs";
             settings.net_device_type = query_args.get("net_device_type") || settings.net_device_type;
         }
@@ -2224,6 +2229,12 @@ function start_emulation(profile, query_args)
             if(settings.acpi) new_query_args.set("acpi", "1");
         }
 
+        if(settings.enable_ac97 === undefined)
+        {
+            settings.enable_ac97 = $("enable_ac97").checked;
+            if(settings.enable_ac97) new_query_args.set("ac97", "1");
+        }
+
         const BIOSPATH = "bios/";
 
         if(!settings.bios)
@@ -2277,6 +2288,7 @@ function start_emulation(profile, query_args)
         cmdline: settings.cmdline,
         bzimage_initrd_from_filesystem: settings.bzimage_initrd_from_filesystem,
         acpi: settings.acpi,
+        enable_ac97: settings.enable_ac97,
         disable_jit: settings.disable_jit,
         initial_state: settings.initial_state,
         filesystem: settings.filesystem || {},

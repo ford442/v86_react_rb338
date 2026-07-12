@@ -15,6 +15,7 @@ import { h, view, pads, Bitmap, dump_file } from "./lib.js";
 import { dbg_assert, dbg_log } from "./log.js";
 
 import { SB16 } from "./sb16.js";
+import { AC97 } from "./ac97.js";
 import { ACPI } from "./acpi.js";
 import { PIT } from "./pit.js";
 import { DMA } from "./dma.js";
@@ -572,6 +573,7 @@ CPU.prototype.get_state = function()
     state[82] = this.devices.virtio_console;
     state[83] = this.devices.virtio_net;
     state[84] = this.devices.virtio_balloon;
+    state[86] = this.devices.ac97;
 
     return state;
 };
@@ -736,6 +738,7 @@ CPU.prototype.set_state = function(state)
 
     this.devices.uart1 && this.devices.uart1.set_state(state[79]);
     this.devices.uart2 && this.devices.uart2.set_state(state[80]);
+    this.devices.ac97 && state[86] && this.devices.ac97.set_state(state[86]);
     this.devices.uart3 && this.devices.uart3.set_state(state[81]);
     this.devices.virtio_console && this.devices.virtio_console.set_state(state[82]);
     this.devices.virtio_net && this.devices.virtio_net.set_state(state[83]);
@@ -1234,7 +1237,12 @@ CPU.prototype.init = function(settings, device_bus)
             this.devices.virtio_balloon = new VirtioBalloon(this, device_bus);
         }
 
-        if(true)
+        // Only one audio device may drive the DAC bus events at a time.
+        if(settings.enable_ac97)
+        {
+            this.devices.ac97 = new AC97(this, device_bus);
+        }
+        else
         {
             this.devices.sb16 = new SB16(this, device_bus);
         }
